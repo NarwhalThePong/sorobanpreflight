@@ -1,0 +1,45 @@
+{
+  "name": "sorobanpreflight",
+  "version": "0.2.0",
+  "private": false,
+  "description": "Checklist-driven pre-audit self-review report for Soroban (Stellar) Rust smart contracts. Offline, no compiler needed. Not an audit.",
+  "bin": {
+    "sorobanpreflight": "bin/sorobanpreflight.js"
+  },
+  "main": "src/scan.js",
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE",
+    "LAUNCH_NOTE.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "sample": "node bin/sorobanpreflight.js fixtures/vulnerable-contract -o SAMPLE_REPORT.md"
+  },
+  "keywords": [
+    "soroban",
+    "stellar",
+    "rust",
+    "smart-contracts",
+    "pre-audit",
+    "checklist",
+    "security-review",
+    "static-analysis"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NarwhalThePong/sorobanpreflight.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NarwhalThePong/sorobanpreflight/issues"
+  },
+  "homepage": "https://github.com/NarwhalThePong/sorobanpreflight#readme"
+}

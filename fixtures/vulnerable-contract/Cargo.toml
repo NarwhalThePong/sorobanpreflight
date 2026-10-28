@@ -1,0 +1,11 @@
+[package]
+name = "vulnerable-vault"
+version = "0.0.0"
+edition = "2021"
+rust-version = "1.89"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = "=25.3.0"
