@@ -1,5 +1,7 @@
 # sorobanpreflight
 
+[![npm](https://img.shields.io/npm/v/sorobanpreflight.svg)](https://www.npmjs.com/package/sorobanpreflight) [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A pre-audit self-review checklist for Soroban (Stellar) smart contracts written in Rust. It reads your `.rs` source offline (no compiler or toolchain needed), runs pattern checks for common Soroban mistakes, and writes a Markdown (or JSON) report you can work through before you hand the code to an auditor.
 
 **This is a self-review aid. It is not an audit, it is not a substitute for an audit, and it gives no guarantees.** The checks are text patterns, not a compiler or a formal analysis. Some hits will be false positives, and many real bugs will not be detected. A clean report does not mean a contract is safe.
