@@ -46,6 +46,18 @@ $ echo $?
 
 Exit code 1 comes from `--fail-on high`, so the same command can gate a CI job. Adding `new_admin.require_auth()` (or a check against the stored admin) clears the hit.
 
+### Example: plain `panic!` instead of a contract error (ER-01, new in 0.2.2)
+
+Plain `panic!("...")` messages are stripped from release Wasm, so callers only see `HostError(WasmVm, InvalidAction)` (see [stellar/soroban-examples#282](https://github.com/stellar/soroban-examples/issues/282) and [#199](https://github.com/stellar/soroban-examples/issues/199)). With `if amount <= 0 { panic!("bad amount"); }` in `src/lib.rs`:
+
+```
+$ npx sorobanpreflight demo --only ER-01
+- [ ] **ER-01** panic! with a string instead of a contract error — _low review priority_ — 1 hit(s)
+  - `src/lib.rs:11` — deposit() uses panic!; callers see only a generic WasmVm trap
+```
+
+Fix: a `#[contracterror]` enum plus `panic_with_error!(&env, Error::BadAmount)`.
+
 ## Usage
 
 ```
@@ -79,6 +91,7 @@ node bin/sorobanpreflight.js --list-rules
 | IN-02 | high | Init / upgrade: Contract Wasm upgrade with no admin authorization |
 | RE-01 | low | Cross-contract calls: State written after an external token or contract call |
 | RE-02 | high | Cross-contract calls: Token or contract address taken from the caller |
+| ER-01 | low | Errors: `panic!` with a string instead of a `#[contracterror]` / `panic_with_error!` (callers only see a generic WasmVm trap) |
 
 The report also lists pre-audit readiness items: Cargo.toml present, `overflow-checks = true` in `[profile.release]`, soroban-sdk version pinned, unit tests present, README or scope doc present.
 

@@ -69,4 +69,8 @@ module.exports = {
     bad: W('pub fn pay(env: Env, from: Address, token_addr: Address, amount: i128) {\nfrom.require_auth();\nif amount <= 0 { panic!(); }\ntoken::TokenClient::new(&env, &token_addr).transfer(&from, &env.current_contract_address(), &amount);\n}'),
     good: W('pub fn pay(env: Env, from: Address, amount: i128) {\nfrom.require_auth();\nif amount <= 0 { panic!(); }\nlet t: Address = env.storage().instance().get(&DataKey::Token).unwrap();\ntoken::TokenClient::new(&env, &t).transfer(&from, &env.current_contract_address(), &amount);\n}'),
   },
+  'ER-01': {
+    bad: W('pub fn deposit(env: Env, user: Address, amount: i128) {\nuser.require_auth();\nif amount <= 0 { panic!("bad amount"); }\n}'),
+    good: W('pub fn deposit(env: Env, user: Address, amount: i128) {\nuser.require_auth();\nif amount <= 0 { panic_with_error!(&env, Error::BadAmount); }\n}'),
+  },
 };

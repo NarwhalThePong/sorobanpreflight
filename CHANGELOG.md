@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 - 2026-10-28
+
+- New rule ER-01 (low): `panic!` with a string instead of a `#[contracterror]` / `panic_with_error!`. Release Wasm strips panic messages, so callers only see a generic `HostError(WasmVm, InvalidAction)` (stellar/soroban-examples#282, #199).
+
 ## 0.2.1 - 2026-10-28
 
 - README: new Quick start section with a self-contained example that runs from an empty folder. No code changes.

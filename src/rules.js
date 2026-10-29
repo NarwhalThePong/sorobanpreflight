@@ -198,5 +198,13 @@ const rules = [
       }
       return hits; },
   },
+  // ---------- Errors ----------
+  {
+    id: 'ER-01', category: 'Errors', title: 'panic! with a string instead of a contract error', priority: 'low',
+    why: 'Panic messages are stripped from release Wasm, so a plain panic!() reaches callers, wallets and fuzzers as a generic HostError(WasmVm, InvalidAction) trap. Users cannot tell an expected rejection (bad amount, not initialized) from a real bug, and fuzz tests cannot separate valid errors from crashes.',
+    verify: 'Define a #[contracterror] enum and use panic_with_error!(&env, Error::X) or return Result<_, Error> for conditions callers can hit. Keep panic! for states that must be impossible.',
+    check: f => f.functions.filter(fn => /\bpanic!\s*\(/.test(fn.body))
+      .map(fn => ({ line: at(f, fn, firstIdx(fn.body, /\bpanic!\s*\(/)), note: `${fn.name}() uses panic!; callers see only a generic WasmVm trap` })),
+  },
 ];
 module.exports = { rules };

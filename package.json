@@ -1,6 +1,6 @@
 {
   "name": "sorobanpreflight",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
   "description": "Checklist-driven pre-audit self-review report for Soroban (Stellar) Rust smart contracts. Offline, no compiler needed. Not an audit.",
   "bin": {
