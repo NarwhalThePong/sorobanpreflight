@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-10-28
+
+- README: new Quick start section with a self-contained example that runs from an empty folder. No code changes.
+
 ## 0.2.0 (2026-10-28)
 - New rule ST-03: per-user data keyed into instance storage.
 - New rule AU-03: token-style function authorizes the wrong address (SEP-41 `from` / `spender`).

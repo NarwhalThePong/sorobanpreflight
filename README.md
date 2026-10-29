@@ -6,6 +6,46 @@ A pre-audit self-review checklist for Soroban (Stellar) smart contracts written 
 
 **This is a self-review aid. It is not an audit, it is not a substitute for an audit, and it gives no guarantees.** The checks are text patterns, not a compiler or a formal analysis. Some hits will be false positives, and many real bugs will not be detected. A clean report does not mean a contract is safe.
 
+## Quick start
+
+No install needed (Node 18+). Run it on any folder that contains Soroban Rust source:
+
+```
+npx sorobanpreflight path/to/contract -o PREFLIGHT.md
+```
+
+### Example: an admin setter with no auth check
+
+Save this as `demo/src/lib.rs`:
+
+```rust
+#![no_std]
+use soroban_sdk::{contract, contractimpl, Address, Env, Symbol};
+
+#[contract]
+pub struct Vault;
+
+#[contractimpl]
+impl Vault {
+    pub fn set_admin(env: Env, new_admin: Address) {
+        env.storage().instance().set(&Symbol::new(&env, "admin"), &new_admin);
+    }
+}
+```
+
+Then run:
+
+```
+$ npx sorobanpreflight demo --only AU-01 --fail-on high
+...
+- [ ] **AU-01** Entry point changes state with no require_auth — _high review priority_ — 1 hit(s)
+  - `src/lib.rs:9` — set_admin() writes state or calls a token with no require_auth
+$ echo $?
+1
+```
+
+Exit code 1 comes from `--fail-on high`, so the same command can gate a CI job. Adding `new_admin.require_auth()` (or a check against the stored admin) clears the hit.
+
 ## Usage
 
 ```
